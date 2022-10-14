@@ -1,12 +1,15 @@
 package model;
 
 import javax.swing.ImageIcon;
+import java.beans.*;
 
 
-public class FigureModel 
+public class FigureModel
 {
     private ImageIcon imagePath = null;
     private String caption = null;
+
+    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     public void FigureModel() {
     }
@@ -14,6 +17,16 @@ public class FigureModel
     public void FigureModel(ImageIcon image, String caption) {
         this.imagePath = image;
         this.caption = caption;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener propertyChangeListener)
+    {
+        this.propertyChangeSupport.addPropertyChangeListener(propertyChangeListener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener propertyChangeListener)
+    {
+        this.propertyChangeSupport.removePropertyChangeListener(propertyChangeListener);
     }
 
     public ImageIcon getImage() {
@@ -31,7 +44,7 @@ public class FigureModel
         if (newImage == null) {
             throw new IllegalArgumentException("Your chosen image is null. Please reselect a non-null image!");
         }
-
+        this.propertyChangeSupport.firePropertyChange("image", this.imagePath, newImage);
         this.imagePath = newImage;
     }
 
@@ -51,11 +64,12 @@ public class FigureModel
             throw new IllegalArgumentException("Your chosen caption is null. Please rewrite a non-null caption!");
         }
 
+        this.propertyChangeSupport.firePropertyChange("caption", this.caption, newCaption);
         this.caption = newCaption;
     }
 
     /**
-     * Returns true if this figure is complete, meaning its Image 
+     * Returns true if this figure is complete, meaning its Image
      * is non-null and its caption is non-null and non-empty, and
      * false otherwise.
      *
