@@ -5,9 +5,19 @@ import javax.swing.ImageIcon;
 
 public class FigureModel 
 {
+    private ImageIcon imagePath = null;
+    private String caption = null;
+
+    public void FigureModel() {
+    }
+
+    public void FigureModel(ImageIcon image, String caption) {
+        this.imagePath = image;
+        this.caption = caption;
+    }
+
     public ImageIcon getImage() {
-	//TODO
-	return null;
+	    return this.imagePath;
     }
 
     /**
@@ -18,12 +28,15 @@ public class FigureModel
      * @throws IllegalArgumentException if the ImageIcon is null
      */
     public void setImage(ImageIcon newImage) {
-	//TODO
+        if (newImage == null) {
+            throw new IllegalArgumentException("Your chosen image is null. Please reselect a non-null image!");
+        }
+
+        this.imagePath = newImage;
     }
 
     public String getCaption() {
-	//TODO
-	return null;
+	    return this.caption;
     }
 
     /**
@@ -34,7 +47,11 @@ public class FigureModel
      * @throws IllegalArgumentException if the String is null or empty
      */
     public void setCaption(String newCaption) {
-	//TODO
+        if (newCaption == null) {
+            throw new IllegalArgumentException("Your chosen caption is null. Please rewrite a non-null caption!");
+        }
+
+        this.caption = newCaption;
     }
 
     /**
@@ -45,7 +62,6 @@ public class FigureModel
      * @return True if this figure is complete and false otherwise
      */
     public boolean isComplete() {
-	//TODO
-	return false;
+        return this.imagePath != null && (this.caption != null && this.caption.length() != 0);
     }
 }
